@@ -126,4 +126,10 @@ show_menu(){
             exit 0
             ;;
         *)
-            echo "无效的选项
+            echo "无效的选项，请重新选择。"
+            show_menu
+            ;;
+    esac
+}
+
+show_menu
