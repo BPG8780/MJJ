@@ -10,16 +10,14 @@ if [[ `which python3` == "" ]]; then
 	apt install python3 -y || yum install python3 -y 
 fi
 
-cpunumber=$(cat /proc/cpuinfo| grep "processor"| wc -l) # 取CPU线程数量
-cpup=$(expr ${cpunumber} \* 15)  # 设定CPU占用百分数值
+cpunumber=$(cat /proc/cpuinfo| grep "processor"| wc -l)
+cpup=$(expr ${cpunumber} \* 20)
 
-# 取内存占用数值开始处
 if [[ `uname -m` == "aarch64" ]]; then
 	memorylimit="${cpunumber}*0.6*1024*1024*1024"
 elif [[ `uname -m` == "x86_64" ]]; then
 	memorylimit="${cpunumber}*0.1*1024*1024*1024"
 fi
-# 取内存占用数值结束处
 
 checkstatus(){
 	if [[ -f /tmp/cpu.py ]]; then
@@ -58,12 +56,10 @@ EOF
 	systemctl start KeepCpuMemory
 	systemctl enable KeepCpuMemory
 	echo "设置CPU占用保号完成。"
-	# 配置CPU占用结束
 }
 
 config_cpu_memory(){
 	checkstatus
-	# 配置CPU、内存占用开始
 	cat > /etc/systemd/system/KeepCpuMemory.service <<EOF
 [Unit]
 
@@ -85,7 +81,6 @@ EOF
 	systemctl start KeepCpuMemory
 	systemctl enable KeepCpuMemory
 	echo "设置CPU、内存占用保号完成。"
-	# 配置CPU、内存占用结束
 }
 
 removesh(){
@@ -107,7 +102,7 @@ show_menu(){
     echo "1. 配置 CPU 占用"
     echo "2. 配置 CPU 和内存占用"
     echo "3. 卸载脚本"
-    echo "4. 退出"
+    echo "0. 退出"
     echo ""
 
     read -p "请输入选项数字: " option
@@ -122,7 +117,7 @@ show_menu(){
         3)
             removesh
             ;;
-        4)
+        0)
             exit 0
             ;;
         *)
