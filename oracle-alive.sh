@@ -11,10 +11,10 @@ if [[ `which python3` == "" ]]; then
 fi
 
 cpunumber=$(cat /proc/cpuinfo| grep "processor"| wc -l)
-cpup=$(expr ${cpunumber} \* 21)
+cpup=$(expr ${cpunumber} \* 25)
 
 if [[ `uname -m` == "aarch64" ]]; then
-	memorylimit="${cpunumber}*1.2*1024*1024*1024"
+	memorylimit="${cpunumber}*0.6*1024*1024*1024"
 elif [[ `uname -m` == "x86_64" ]]; then
 	memorylimit="${cpunumber}*0.1*1024*1024*1024"
 fi
